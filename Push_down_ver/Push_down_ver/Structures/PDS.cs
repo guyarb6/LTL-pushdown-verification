@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Push_down_ver.Structures
 {
-    class PDS
+    public class PDS
     {
+        
     }
 }
