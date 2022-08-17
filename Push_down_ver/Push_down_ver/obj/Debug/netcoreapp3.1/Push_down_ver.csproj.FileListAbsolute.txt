@@ -1,0 +1,14 @@
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.exe
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.deps.json
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.runtimeconfig.json
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.runtimeconfig.dev.json
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.dll
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.pdb
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.csproj.AssemblyReference.cache
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.AssemblyInfoInputs.cache
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.AssemblyInfo.cs
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.csproj.CoreCompileInputs.cache
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.dll
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.pdb
+C:\Users\guyar\source\repos\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.genruntimeconfig.cache
