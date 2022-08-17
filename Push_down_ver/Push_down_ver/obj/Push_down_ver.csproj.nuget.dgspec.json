@@ -1,25 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\guyar\\source\\repos\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj": {}
+    "C:\\Users\\guy\\Documents\\GitHub\\LTL-pushdown-verification\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj": {}
   },
   "projects": {
-    "C:\\Users\\guyar\\source\\repos\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj": {
+    "C:\\Users\\guy\\Documents\\GitHub\\LTL-pushdown-verification\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\guyar\\source\\repos\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj",
+        "projectUniqueName": "C:\\Users\\guy\\Documents\\GitHub\\LTL-pushdown-verification\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj",
         "projectName": "Push_down_ver",
-        "projectPath": "C:\\Users\\guyar\\source\\repos\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj",
-        "packagesPath": "C:\\Users\\guyar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\guyar\\source\\repos\\Push_down_ver\\Push_down_ver\\obj\\",
+        "projectPath": "C:\\Users\\guy\\Documents\\GitHub\\LTL-pushdown-verification\\Push_down_ver\\Push_down_ver\\Push_down_ver.csproj",
+        "packagesPath": "C:\\Users\\guy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\guy\\Documents\\GitHub\\LTL-pushdown-verification\\Push_down_ver\\Push_down_ver\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\guyar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\guy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"

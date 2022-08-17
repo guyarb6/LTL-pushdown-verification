@@ -9,7 +9,10 @@ namespace Push_down_ver.Prog
         public int id;
         public HashSet<int> AtomicProp;
     }
-    public class prog
+
+    
+
+    public class ControlFlow
     {
         private int nameCounter = 0;
     }
