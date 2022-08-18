@@ -5,14 +5,14 @@ using Push_down_ver.LTL;
 namespace Push_down_ver.Structures
 {
 
-    public class NODE
+    public class GnbaNode
     {
 
         public bool[] metaFormulaAssigmnet;//this list is of sub formulas from which it is created
         //if this node is initial
         public bool init;
 
-        public LinkedList<NODE> neighbor;
+        public LinkedList<GnbaNode> neighbor;
 
         public bool[] F;
 
@@ -26,9 +26,9 @@ namespace Push_down_ver.Structures
         private LTLFormula root;
 
 
-        public List<NODE> nodes = new List<NODE>(); 
+        public List<GnbaNode> nodes = new List<GnbaNode>(); 
 
-        public List<NODE> iniNodes = new List<NODE>();
+        public List<GnbaNode> iniNodes = new List<GnbaNode>();
 
 
         public GNBA(LTLFormula root)
@@ -42,13 +42,13 @@ namespace Push_down_ver.Structures
             }
 
             //add neighbors
-            foreach (NODE n in nodes)
+            foreach (GnbaNode n in nodes)
             {
                 n.neighbor = neighbors(n);
             }
 
             //set inits
-            foreach(NODE n in nodes)
+            foreach(GnbaNode n in nodes)
             {
                 if (n.init)
                 {
@@ -58,10 +58,10 @@ namespace Push_down_ver.Structures
             //add reachability
         }
 
-        private LinkedList<NODE> neighbors(NODE n)
+        private LinkedList<GnbaNode> neighbors(GnbaNode n)
         {
-            LinkedList<NODE> l = new LinkedList<NODE>();
-            foreach(NODE m in nodes)
+            LinkedList<GnbaNode> l = new LinkedList<GnbaNode>();
+            foreach(GnbaNode m in nodes)
             {
                 if(LTLFormula.DeltaNextCondition(n.metaFormulaAssigmnet,m.metaFormulaAssigmnet)
                     &&
@@ -75,9 +75,9 @@ namespace Push_down_ver.Structures
         }
 
         //create node
-        private NODE CreateNode(bool[] assignment)
+        private GnbaNode CreateNode(bool[] assignment)
         {
-            NODE n = new NODE();
+            GnbaNode n = new GnbaNode();
             n.init = LTLFormula.InitSet(assignment, root);
             n.metaFormulaAssigmnet = assignment;
             n.F = LTLFormula.FList(assignment);
