@@ -6,14 +6,21 @@ namespace Push_down_ver.Prog
 {
     public abstract class IpNode
     {
-        public int id;
+
+        public bool visited = false;
+        public static int nameCounter = 0;
+
+
+        public int ip;
         public HashSet<int> AtomicProp;
 
-        public IpNode(int id, HashSet<int> AtomicProp)
+        public IpNode(HashSet<int> AtomicProp)
         {
-            this.id = id;
+            this.ip = nameCounter++;
             this.AtomicProp = AtomicProp;
         }
+
+
 
         public virtual bool isReturn()
         {
@@ -24,7 +31,7 @@ namespace Push_down_ver.Prog
     public class ReturnNode : IpNode
     {
 
-        public ReturnNode(int id, HashSet<int> AtomicProp) : base(id, AtomicProp) { }
+        public ReturnNode(HashSet<int> AtomicProp) : base( AtomicProp) { }
 
         public override bool isReturn()
         {
@@ -35,25 +42,50 @@ namespace Push_down_ver.Prog
 
     public class CallNode : IpNode
     {
-        public int callId;
-        public CallNode(int id, HashSet<int> AtomicProp, int callId) : base(id, AtomicProp) { this.callId = callId; }
+        public IpNode callIp;
+        public CallNode(HashSet<int> AtomicProp) : base( AtomicProp) {  }
 
-        
+        public void setCallIp(IpNode callIp)
+        {
+            this.callIp = callIp;
+        }
     }
 
     public class NonDeterministicCallNode : IpNode
     {
-        public int callId1;
-        public int callId2;
-        public NonDeterministicCallNode(int id, HashSet<int> AtomicProp, int callId1, int callId2) : base(id, AtomicProp) { this.callId1 = callId1; this.callId2 = callId2; }
+        public IpNode callIp1;
+        public IpNode callIp2;
+        public NonDeterministicCallNode( HashSet<int> AtomicProp) : base(AtomicProp) { }
 
-
+        public void setCallIp1(IpNode callIp)
+        {
+            this.callIp1 = callIp;
+        }
+        public void setCallIp2(IpNode callIp)
+        {
+            this.callIp2 = callIp;
+        }
     }
 
 
 
     public class ControlFlow
     {
-        private int nameCounter = 0;
+        
+
+        private LinkedList<IpNode> functions = new LinkedList<IpNode>();
+        private IpNode mainNode;
+
+        public void AddMainFunction(IpNode n )
+        {
+            mainNode = n;
+        }
+
+        public void AddFunction(IpNode n)
+        {
+            functions.AddFirst(n);
+        }
+
+
     }
 }

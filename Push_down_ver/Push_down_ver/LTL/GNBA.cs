@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Push_down_ver.LTL;
-namespace Push_down_ver.Structures
+
+namespace Push_down_ver.LTL
 {
 
     public class GnbaNode
