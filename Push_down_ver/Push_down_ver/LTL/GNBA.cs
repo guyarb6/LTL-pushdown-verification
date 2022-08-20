@@ -7,7 +7,8 @@ namespace Push_down_ver.LTL
 
     public class GnbaNode
     {
-
+        public NbaNode[] metaNba;//this is list of all nba generated from this node in case F isnt empty
+        public NbaNode metaSingleNba;//this is list of all nba generated from this node in case F is empty
         public bool[] metaFormulaAssigmnet;//this list is of sub formulas from which it is created
         //if this node is initial
         public bool init;
@@ -77,11 +78,13 @@ namespace Push_down_ver.LTL
         //create node
         private GnbaNode CreateNode(bool[] assignment)
         {
+
             GnbaNode n = new GnbaNode();
             n.init = LTLFormula.InitSet(assignment, root);
             n.metaFormulaAssigmnet = assignment;
             n.F = LTLFormula.FList(assignment);
             n.AtomicProp = LTLFormula.AtomicSet(assignment);
+            n.metaNba = new NbaNode[n.F.Length];
             return n;
         }
     }

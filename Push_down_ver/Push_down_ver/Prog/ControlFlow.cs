@@ -7,7 +7,14 @@ namespace Push_down_ver.Prog
     public abstract class IpNode
     {
         
-
+        public PdsNode createPdsNode()
+        {
+            PdsNode result = new PdsNode();
+            result.AtomicProp = AtomicProp;
+            result.id = ip;
+            
+            return null;
+        }
 
         public bool visited = false;
         
@@ -130,7 +137,7 @@ namespace Push_down_ver.Prog
     {
         
 
-        private LinkedList<IpNode> functions = new LinkedList<IpNode>();
+        
         private IpNode mainNode;
 
         public void AddMainFunction(IpNode n )
@@ -140,7 +147,8 @@ namespace Push_down_ver.Prog
 
         public void AddFunction(IpNode n)
         {
-            functions.AddFirst(n);
+            
+            n.SetNodes();
         }
 
         private SparseMatrix<int> AddPositiveDelta()
@@ -174,7 +182,31 @@ namespace Push_down_ver.Prog
             return result;
         }
 
+        public PDS createPDS()
+        {
+            PDS result = new PDS();
 
+            result.alphabetSize = IpNode.nameCounter;
+            result.initNode = mainNode.ip;
+            result.positiveDelta = AddPositiveDelta();
+            result.negativeDelta = AddNegativeDelta();
+            result.nodes = new PdsNode[IpNode.nameCounter];
+            foreach (CallNode n in CallNode.List)
+            {
+                result.nodes[n.ip] = n.createPdsNode();
+            }
+
+            foreach (NonDeterministicCallNode n in NonDeterministicCallNode.List)
+            {
+                result.nodes[n.ip] = n.createPdsNode();
+            }
+
+            foreach (ReturnNode n in ReturnNode.List)
+            {
+                result.nodes[n.ip] = n.createPdsNode();
+            }
+            return result;
+        }
 
     }
 }
