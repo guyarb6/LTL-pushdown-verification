@@ -113,6 +113,7 @@ namespace Push_down_ver.Prog
                 return;
             }
             visited = true;
+            List.AddFirst(this);
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             //assume callIp is not null. Must set it before
@@ -145,6 +146,17 @@ namespace Push_down_ver.Prog
         private SparseMatrix<int> AddPositiveDelta()
         {
             SparseMatrix<int> result= new SparseMatrix<int>(IpNode.nameCounter, IpNode.nameCounter);
+            
+            foreach(CallNode n in CallNode.List)
+            {
+                result[n.ip, n.callIp.ip] = n.next.ip;
+            }
+
+            foreach(NonDeterministicCallNode n in NonDeterministicCallNode.List)
+            {
+                result[n.ip, n.callIp1.ip] = n.next1.ip;
+                result[n.ip, n.callIp2.ip] = n.next2.ip;
+            }
             return result;
         }
 
@@ -152,7 +164,17 @@ namespace Push_down_ver.Prog
         private SparseMatrix<int> AddNegativeDelta()
         {
             SparseMatrix<int> result = new SparseMatrix<int>(IpNode.nameCounter, IpNode.nameCounter);
+            foreach(ReturnNode n in ReturnNode.List)
+            {
+                for(int i=0; i < IpNode.nameCounter; i++)
+                {
+                    result[n.ip, i] = i;
+                }
+            }
             return result;
         }
+
+
+
     }
 }
