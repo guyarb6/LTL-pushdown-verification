@@ -89,7 +89,7 @@ namespace Push_down_ver.LTL
         
         private int fSize;
         
-        private LinkedList<NbaNode> nodes = new LinkedList<NbaNode>();
+        public LinkedList<NbaNode> nodes = new LinkedList<NbaNode>();
         
 
 

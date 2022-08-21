@@ -46,6 +46,17 @@ namespace Push_down_ver.Structures
 
         public PDS p;
         public NBA n;
+        public LinkedList<BpdsNode> nodes = new LinkedList<BpdsNode>();
+
+        //Our Buchi Push Down System will be defined as follows:
+        public int qSize;
+        public HashSet<int>[] AtomicProp;
+        public int alphabetSize;
+        public bool[] fList;
+
+        public SparseMatrix<int> positiveDelta;
+        public SparseMatrix<int> negativeDelta;
+
         private bool sameAtomicProp(NbaNode nbaNode, PdsNode pdsNode)
         {
             return nbaNode.AtomicProp.SetEquals(pdsNode.AtomicProp);
@@ -54,17 +65,40 @@ namespace Push_down_ver.Structures
 
         public BuchiPushDownSystem(PDS p, NBA n)
         {
+
             this.p = p;
             this.n = n;
+            
+            foreach(NbaNode nbaNode in n.nodes)
+            {
+                foreach(PdsNode pdsNode in p.nodes)
+                {
+                    if(sameAtomicProp(nbaNode, pdsNode))
+                    {
+                        nodes.AddFirst(new BpdsNode(nbaNode, pdsNode));
+                    }
+                    
+                }
+            }
+
         }
 
         private bool PossiblePositiveTransition(BpdsNode from, BpdsNode to)
         {
             if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.positiveDelta.IsCellEmpty(from.pdsNode.id,to.pdsNode.id)))
             {
-                return 
+                return true;
             }
-            return true;
+            return false;
+        }
+
+        private bool PossibleNegativeTransition(BpdsNode from, BpdsNode to)
+        {
+            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.negativeDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
