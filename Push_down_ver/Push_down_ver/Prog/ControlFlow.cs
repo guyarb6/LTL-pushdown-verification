@@ -188,6 +188,7 @@ namespace Push_down_ver.Prog
 
             result.alphabetSize = IpNode.nameCounter;
             result.initNode = mainNode.ip;
+            result.nodes[result.initNode].init = true;
             result.positiveDelta = AddPositiveDelta();
             result.negativeDelta = AddNegativeDelta();
             result.nodes = new PdsNode[IpNode.nameCounter];

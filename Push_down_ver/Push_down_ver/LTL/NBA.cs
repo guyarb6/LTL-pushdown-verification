@@ -11,7 +11,7 @@ namespace Push_down_ver.LTL
         //------------------------------------------------------
 
         //each node is constructed from number and GnbaNode
-        public int index;
+        public int index;//index in F list
         public GnbaNode b;
         
 
@@ -145,6 +145,8 @@ namespace Push_down_ver.LTL
             
             
             //set init list
+
+
         }
 
 
