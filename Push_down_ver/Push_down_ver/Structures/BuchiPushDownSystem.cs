@@ -37,7 +37,7 @@ namespace Push_down_ver.Structures
         }
 
 
-        public LinkedList<BpdsNode> neighbor = new LinkedList<BpdsNode>();
+        
     }
 
     
@@ -50,10 +50,10 @@ namespace Push_down_ver.Structures
 
         //Our Buchi Push Down System will be defined as follows:
         public int qSize;
-        public HashSet<int>[] AtomicProp;
+        public HashSet<int>[] AtomicPropList;
         public int alphabetSize;
         public bool[] fList;
-
+        public bool[] initList;
         public SparseMatrix<int> positiveDelta;
         public SparseMatrix<int> negativeDelta;
 
@@ -80,13 +80,43 @@ namespace Push_down_ver.Structures
                     
                 }
             }
+            alphabetSize = p.alphabetSize;
+            qSize = nodes.Count;
+            fList = new bool[qSize];
+            initList = new bool[qSize];
+            AtomicPropList = new HashSet<int>[qSize];
 
+            foreach(BpdsNode n1 in nodes)
+            {
+                fList[n1.id] = n1.F;
+                AtomicPropList[n1.id] = n1.AtomicProp;
+
+                initList[n1.id] = n1.init;
+            }
+            positiveDelta = new SparseMatrix<int>(qSize, qSize);
+            negativeDelta = new SparseMatrix<int>(qSize, qSize);
+            foreach (BpdsNode n1 in nodes)
+            {
+                foreach( BpdsNode n2 in nodes)
+                {
+                    if (PossiblePositiveTransition(n1, n2))
+                    {
+                        positiveDelta[n1.id, n2.id] = transitionAlphabet;
+                    }else if (PossibleNegativeTransition(n1, n2))
+                    {
+                        negativeDelta[n1.id, n2.id] = transitionAlphabet;
+                    }
+                }
+            }
         }
 
+
+        private int transitionAlphabet;
         private bool PossiblePositiveTransition(BpdsNode from, BpdsNode to)
         {
             if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.positiveDelta.IsCellEmpty(from.pdsNode.id,to.pdsNode.id)))
             {
+                transitionAlphabet = positiveDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
             }
             return false;
@@ -96,9 +126,69 @@ namespace Push_down_ver.Structures
         {
             if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.negativeDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
             {
+                transitionAlphabet = negativeDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
             }
             return false;
+        }
+
+
+
+
+
+        private SparseMatrix<bool> epsilonDelta;
+
+        private Stack<Tuple<int, int>> s;
+        private void addToEpsilon(int from, int to)
+        {
+            if(epsilonDelta.IsCellEmpty(from, to))
+            {
+                epsilonDelta[from, to] = true;
+                s.Push(new Tuple<int, int>(from, to));
+            }
+        }
+
+        private void addDirect(int from, int to)
+        {
+            
+            Dictionary<int, int> preFrom = positiveDelta.getCol(from);
+            Dictionary<int, int> postTo = positiveDelta.getRow(to);
+
+            foreach(var f in preFrom)
+            {
+                foreach(var t in postTo)
+                {
+                    if (f.Value == t.Value)
+                    {
+                        addToEpsilon(f.Key, t.Key);
+                    }
+                }
+            }
+        }
+        private void addTrans(int from, int to)
+        {
+
+        }
+        private void setEpsilon()
+        {
+            s = new Stack<Tuple<int, int>>();
+            epsilonDelta = new SparseMatrix<bool>(qSize,qSize);
+            //set init
+            for (int i = 0; i < qSize; i++)
+            {
+                if (initList[i])
+                {
+                    s.Push(new Tuple<int, int>(i, i));
+                }
+            }
+
+            while (s.Count > 0)
+            {
+                Tuple<int, int> a = s.Pop();
+                //add directs
+
+                //add transitive
+            }
         }
     }
 }

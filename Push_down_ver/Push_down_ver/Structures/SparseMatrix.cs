@@ -13,22 +13,22 @@ namespace Push_down_ver.Structures
         private Dictionary<long, T> _cells = new Dictionary<long, T>();
 
 
-        private Dictionary<long, T>[] rows;
-        private Dictionary<long, T>[] columns;
+        private Dictionary<int, T>[] rows;
+        private Dictionary<int, T>[] columns;
         public SparseMatrix(int w, int h)
         {
             this.Width = w;
             this.Height = h;
             this.Size = w * h;
-            this.rows = new Dictionary<long, T>[h];
+            this.rows = new Dictionary<int, T>[h];
             for(int i=0; i < h; i++)
             {
-                this.rows[i]= new Dictionary<long, T>();
+                this.rows[i]= new Dictionary<int, T>();
             }
-            this.columns = new Dictionary<long, T>[w];
+            this.columns = new Dictionary<int, T>[w];
             for (int i = 0; i < w; i++)
             {
-                this.columns[i] = new Dictionary<long, T>();
+                this.columns[i] = new Dictionary<int, T>();
             }
         }
 
@@ -56,11 +56,11 @@ namespace Push_down_ver.Structures
                 
             }
         }
-        public Dictionary<long, T> getRow(int r)
+        public Dictionary<int, T> getRow(int r)
         {
             return rows[r];
         }
-        public Dictionary<long, T> getCol(int c)
+        public Dictionary<int, T> getCol(int c)
         {
             return columns[c];
         }
