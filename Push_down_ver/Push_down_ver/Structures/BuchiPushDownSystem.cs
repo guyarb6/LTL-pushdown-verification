@@ -15,8 +15,10 @@ namespace Push_down_ver.Structures
         public PdsNode pdsNode;
 
 
+
+        
         public bool init;
-        public bool F=false;
+        public bool F = false;
         public HashSet<int> AtomicProp;
         public BpdsNode(NbaNode nbaNode, PdsNode pdsNode)
         {
@@ -25,7 +27,7 @@ namespace Push_down_ver.Structures
             AtomicProp = nbaNode.AtomicProp;
             id = idCounter++;
 
-            if(nbaNode.init && pdsNode.init)
+            if (nbaNode.init && pdsNode.init)
             {
                 this.init = true;
             }
@@ -40,7 +42,7 @@ namespace Push_down_ver.Structures
         
     }
 
-    
+
     public class BuchiPushDownSystem
     {
 
@@ -68,16 +70,16 @@ namespace Push_down_ver.Structures
 
             this.p = p;
             this.n = n;
-            
-            foreach(NbaNode nbaNode in n.nodes)
+
+            foreach (NbaNode nbaNode in n.nodes)
             {
-                foreach(PdsNode pdsNode in p.nodes)
+                foreach (PdsNode pdsNode in p.nodes)
                 {
-                    if(sameAtomicProp(nbaNode, pdsNode))
+                    if (sameAtomicProp(nbaNode, pdsNode))
                     {
                         nodes.AddFirst(new BpdsNode(nbaNode, pdsNode));
                     }
-                    
+
                 }
             }
             alphabetSize = p.alphabetSize;
@@ -86,7 +88,7 @@ namespace Push_down_ver.Structures
             initList = new bool[qSize];
             AtomicPropList = new HashSet<int>[qSize];
 
-            foreach(BpdsNode n1 in nodes)
+            foreach (BpdsNode n1 in nodes)
             {
                 fList[n1.id] = n1.F;
                 AtomicPropList[n1.id] = n1.AtomicProp;
@@ -97,12 +99,12 @@ namespace Push_down_ver.Structures
             negativeDelta = new SparseMatrix<int>(qSize, qSize);
             foreach (BpdsNode n1 in nodes)
             {
-                foreach( BpdsNode n2 in nodes)
+                foreach (BpdsNode n2 in nodes)
                 {
                     if (PossiblePositiveTransition(n1, n2))
                     {
                         positiveDelta[n1.id, n2.id] = transitionAlphabet;
-                    }else if (PossibleNegativeTransition(n1, n2))
+                    } else if (PossibleNegativeTransition(n1, n2))
                     {
                         negativeDelta[n1.id, n2.id] = transitionAlphabet;
                     }
@@ -114,7 +116,7 @@ namespace Push_down_ver.Structures
         private int transitionAlphabet;
         private bool PossiblePositiveTransition(BpdsNode from, BpdsNode to)
         {
-            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.positiveDelta.IsCellEmpty(from.pdsNode.id,to.pdsNode.id)))
+            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.positiveDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
             {
                 transitionAlphabet = positiveDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
@@ -141,22 +143,24 @@ namespace Push_down_ver.Structures
         private Stack<Tuple<int, int>> s;
         private void addToEpsilon(int from, int to)
         {
-            if(epsilonDelta.IsCellEmpty(from, to))
+            if (epsilonDelta.IsCellEmpty(from, to))
             {
                 epsilonDelta[from, to] = true;
                 s.Push(new Tuple<int, int>(from, to));
             }
         }
 
+
+
         private void addDirect(int from, int to)
         {
-            
+
             Dictionary<int, int> preFrom = positiveDelta.getCol(from);
             Dictionary<int, int> postTo = positiveDelta.getRow(to);
 
-            foreach(var f in preFrom)
+            foreach (var f in preFrom)
             {
-                foreach(var t in postTo)
+                foreach (var t in postTo)
                 {
                     if (f.Value == t.Value)
                     {
@@ -167,28 +171,106 @@ namespace Push_down_ver.Structures
         }
         private void addTrans(int from, int to)
         {
+            Dictionary<int, bool> transFrom = epsilonDelta.getCol(from);
+            Dictionary<int, bool> transTo = epsilonDelta.getRow(to);
 
+            foreach (var t in transFrom)
+            {
+                addToEpsilon(t.Key, from);
+            }
+            foreach (var t in transTo)
+            {
+                addToEpsilon(to, t.Key);
+            }
         }
         private void setEpsilon()
         {
             s = new Stack<Tuple<int, int>>();
-            epsilonDelta = new SparseMatrix<bool>(qSize,qSize);
+            epsilonDelta = new SparseMatrix<bool>(qSize, qSize);
             //set init
             for (int i = 0; i < qSize; i++)
             {
-                if (initList[i])
-                {
-                    s.Push(new Tuple<int, int>(i, i));
-                }
+
+                s.Push(new Tuple<int, int>(i, i));
+
             }
 
             while (s.Count > 0)
             {
                 Tuple<int, int> a = s.Pop();
                 //add directs
-
+                addDirect(a.Item1, a.Item2);
                 //add transitive
+                addTrans(a.Item1, a.Item2);
             }
         }
+
+
+        private void addFTrans(int from, int to, SparseMatrix<bool> allEpsilonDelta)
+        {
+            Dictionary<int, bool> transFrom = allEpsilonDelta.getCol(from);
+            Dictionary<int, bool> transTo = allEpsilonDelta.getRow(to);
+
+            foreach (var t in transFrom)
+            {
+                addToEpsilon(t.Key, from);
+            }
+            foreach (var t in transTo)
+            {
+                addToEpsilon(to, t.Key);
+            }
+        }
+        private void setFEpsilon()
+        {
+            setEpsilon();
+
+            s = new Stack<Tuple<int, int>>();
+            var allEpsilonDelta = epsilonDelta;
+            epsilonDelta = new SparseMatrix<bool>(qSize, qSize);
+            //set init
+            for (int i = 0; i < qSize; i++)
+            {
+                if (fList[i])
+                {
+                    s.Push(new Tuple<int, int>(i, i));
+                }
+
+
+            }
+
+            while (s.Count > 0)
+            {
+                Tuple<int, int> a = s.Pop();
+                //add directs
+                addDirect(a.Item1, a.Item2);
+                //add transitive
+                addFTrans(a.Item1, a.Item2, allEpsilonDelta);
+            }
+        }
+
+        //used for DFS search:
+        private Stack<int> qStack;
+        private bool[] visited1;//for first step in CSS
+        private bool[] visited2;//for second step in CSS
+
+        public void CreateSCC() 
+        {
+            bool[] visited1 = new bool[qSize];
+            bool[] visited2 = new bool[qSize];
+
+
+    }
+        
+    }
+
+    public class SCC
+    {
+        public HashSet<int> Items;
+        public SCC(HashSet<int> Items, SparseMatrix<bool> fEpsilonDelta, SparseMatrix<int> positiveDelta)
+        {
+
+        }
+
+        //check for F in SCC
     }
 }
