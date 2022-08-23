@@ -13,7 +13,7 @@ namespace Push_down_ver.Prog
             result.AtomicProp = AtomicProp;
             result.id = ip;
             
-            return null;
+            return result;
         }
 
         public bool visited = false;
@@ -24,6 +24,7 @@ namespace Push_down_ver.Prog
         public int ip;
         public HashSet<int> AtomicProp;
 
+        
         public IpNode(HashSet<int> AtomicProp)
         {
             this.ip = nameCounter++;

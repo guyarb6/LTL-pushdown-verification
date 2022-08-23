@@ -58,7 +58,7 @@ namespace Push_down_ver.Structures
         public bool[] initList;
         public SparseMatrix<int> positiveDelta;
         public SparseMatrix<int> negativeDelta;
-
+        
         private bool sameAtomicProp(NbaNode nbaNode, PdsNode pdsNode)
         {
             return nbaNode.AtomicProp.SetEquals(pdsNode.AtomicProp);
@@ -136,8 +136,10 @@ namespace Push_down_ver.Structures
 
 
 
+        //motheds to create epsilon transitions -------------------------------------------------------------
 
 
+        //will be used to create both all epsilon paths and f-epsilon paths:
         private SparseMatrix<bool> epsilonDelta;
 
         private Stack<Tuple<int, int>> s;
@@ -206,20 +208,7 @@ namespace Push_down_ver.Structures
         }
 
 
-        private void addFTrans(int from, int to, SparseMatrix<bool> allEpsilonDelta)
-        {
-            Dictionary<int, bool> transFrom = allEpsilonDelta.getCol(from);
-            Dictionary<int, bool> transTo = allEpsilonDelta.getRow(to);
-
-            foreach (var t in transFrom)
-            {
-                addToEpsilon(t.Key, from);
-            }
-            foreach (var t in transTo)
-            {
-                addToEpsilon(to, t.Key);
-            }
-        }
+        //methods to create f-epsilon transitions----------------------------------------------------------
         private void setFEpsilon()
         {
             setEpsilon();
@@ -248,29 +237,145 @@ namespace Push_down_ver.Structures
             }
         }
 
-        //used for DFS search:
-        private Stack<int> qStack;
-        private bool[] visited1;//for first step in CSS
-        private bool[] visited2;//for second step in CSS
-
-        public void CreateSCC() 
+        private void addFTrans(int from, int to, SparseMatrix<bool> allEpsilonDelta)
         {
-            bool[] visited1 = new bool[qSize];
-            bool[] visited2 = new bool[qSize];
+            Dictionary<int, bool> transFrom = allEpsilonDelta.getCol(from);
+            Dictionary<int, bool> transTo = allEpsilonDelta.getRow(to);
 
-
-    }
-        
-    }
-
-    public class SCC
-    {
-        public HashSet<int> Items;
-        public SCC(HashSet<int> Items, SparseMatrix<bool> fEpsilonDelta, SparseMatrix<int> positiveDelta)
-        {
-
+            foreach (var t in transFrom)
+            {
+                addToEpsilon(t.Key, from);
+            }
+            foreach (var t in transTo)
+            {
+                addToEpsilon(to, t.Key);
+            }
         }
 
-        //check for F in SCC
+
+
+        //used for DFS search:
+
+
+        private int calledCounter;
+
+        private bool[] called;//for first step in CSS, accsseed via index
+        
+
+        
+        private bool[] tranposeCalled;//for second step in CSS, transpose graph.
+
+
+        private int[] topoSort;// contains elements according to top-sort
+        public bool CheckForNestedF() 
+        {
+            called = new bool[qSize];
+            calledCounter = qSize;
+            topoSort = new int[qSize];
+            
+            tranposeCalled = new bool[qSize];
+
+            setEpsilon();
+            foreach(BpdsNode n1 in nodes)
+            {
+                if (n1.init)
+                {
+                    dfs(n1.id);
+                }
+            }
+
+            
+            HashSet<HashSet<int>> components = new HashSet<HashSet<int>>();
+            for (int i= calledCounter; i < qSize; i++)
+            {
+                int id = topoSort[i];
+                if (tranposeCalled[id] == false)
+                {
+                    SCCItems = new HashSet<int>();
+                    components.Add(SCCItems);
+                    tranposeDfs(id);
+                    
+                }
+            }
+
+            setFEpsilon();
+            foreach (HashSet<int> scc in components)
+            {
+                if (FInSCC(scc))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        private void dfs(int i)
+        {
+            if (called[i])
+            {
+                return;
+            }
+            called[i] = true;
+            
+            foreach(var j in positiveDelta.getRow(i))
+            {
+                dfs(j.Key);
+            }
+            foreach(var j in epsilonDelta.getRow(i))
+            {
+                dfs(j.Key);
+            }
+            topoSort[--calledCounter] = i;
+        }
+
+        //used for storing element in transpose DFS
+        public HashSet<int> SCCItems;
+
+        private void tranposeDfs(int i)
+        {
+            if (tranposeCalled[i])
+            {
+                return;
+            }
+            tranposeCalled[i] = true;
+
+            foreach (var j in positiveDelta.getCol(i))
+            {
+                tranposeDfs(j.Key);
+            }
+            foreach (var j in epsilonDelta.getCol(i))
+            {
+                tranposeDfs(j.Key);
+            }
+            SCCItems.Add(i);
+        }
+
+
+
+        //called after setFEpsilon(), so epsilonDelta is only f epsilons.
+        private bool FInSCC(HashSet<int> scc)
+        {
+            foreach(int i in scc)
+            {
+                if (fList[i]) 
+                {
+                    return true;
+                }
+                    
+            }
+            foreach(int i in scc)
+            {
+                foreach(int j in scc)
+                {
+                    if (epsilonDelta[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
+
+    
 }
