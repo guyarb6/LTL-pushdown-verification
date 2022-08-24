@@ -247,7 +247,7 @@ namespace Push_down_ver.LTL
 
     public class Atomic : LTLFormula
     {
-        public static int AtomicSize = 2;
+        public static int AtomicSize = 3;
 
 
 

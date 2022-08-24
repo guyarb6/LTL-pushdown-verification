@@ -104,7 +104,8 @@ namespace Push_down_ver.Structures
                     if (PossiblePositiveTransition(n1, n2))
                     {
                         positiveDelta[n1.id, n2.id] = transitionAlphabet;
-                    } else if (PossibleNegativeTransition(n1, n2))
+                    }
+                    if (PossibleNegativeTransition(n1, n2))
                     {
                         negativeDelta[n1.id, n2.id] = transitionAlphabet;
                     }

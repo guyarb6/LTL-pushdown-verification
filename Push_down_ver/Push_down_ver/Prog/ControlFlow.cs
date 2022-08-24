@@ -141,7 +141,7 @@ namespace Push_down_ver.Prog
         
         private IpNode mainNode;
 
-        public void AddMainFunction(IpNode n )
+        public void SetMainFunction(IpNode n )
         {
             mainNode = n;
         }
@@ -189,7 +189,7 @@ namespace Push_down_ver.Prog
 
             result.alphabetSize = IpNode.nameCounter;
             result.initNode = mainNode.ip;
-            result.nodes[result.initNode].init = true;
+            
             result.positiveDelta = AddPositiveDelta();
             result.negativeDelta = AddNegativeDelta();
             result.nodes = new PdsNode[IpNode.nameCounter];
@@ -207,6 +207,7 @@ namespace Push_down_ver.Prog
             {
                 result.nodes[n.ip] = n.createPdsNode();
             }
+            result.nodes[result.initNode].init = true;
             return result;
         }
 

@@ -44,37 +44,78 @@ namespace Push_down_ver
             HashSet<int> empty = new HashSet<int>();
             ReturnNode returnIp = new ReturnNode(empty);
             
-            //main:
+            //main control ip:
             CallNode startProgram = new CallNode(empty);
             CallNode endProgram = new CallNode(empty);//call itself
 
-            //s:
+            //s control ip:
             NonDeterministicCallNode s1 = new NonDeterministicCallNode(empty);
             CallNode s2 = new CallNode(empty);
             CallNode s3 = new CallNode(empty);
-            CallNode s4 = new CallNode(empty);
-            CallNode s5 = new CallNode(empty);
 
-            //m:
+            //m control ip:
             NonDeterministicCallNode m1 = new NonDeterministicCallNode(empty);
             CallNode m2 = new CallNode(empty);
             CallNode m3 = new CallNode(empty);
             CallNode m4 = new CallNode(empty);
-            CallNode m6 = new CallNode(empty);
-            return null;
+            
+            //set main control flow
+            startProgram.setCallIp(s1, endProgram);
+            endProgram.setCallIp(endProgram, endProgram);
+
+            //set s control flow
+            s1.setCallIp1(returnIp, returnIp);
+            s1.setCallIp2(up, s2);
+            s2.setCallIp(m1, s3);
+            s3.setCallIp(down, returnIp);
+
+
+            //set m control flow
+            m1.setCallIp1(s1, m2);
+            m2.setCallIp(left, returnIp);
+
+            m1.setCallIp2(up, m3);
+            m3.setCallIp(m1, m4);
+            m4.setCallIp(down, returnIp);
+            cf.SetMainFunction(startProgram);
+            cf.AddFunction(startProgram);
+            cf.AddFunction(m1);
+            cf.AddFunction(s1);
+            cf.AddFunction(up);
+            cf.AddFunction(down);
+            cf.AddFunction(left);
+            return cf;
         }
 
+        public static LTLFormula notAlwaysFormula(LTLFormula f)
+        {
+            var notF = new NegFormula(f);
+            var eventualyNotF = new Until(new TrueFormula(), notF);
+            return eventualyNotF;
+        }
+        public static LTLFormula test1()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+            
+            return notAlwaysFormula(new OrFormula(new NegFormula(up), new Until(new NegFormula(down), left)));
+        }
         
         static void Main(string[] args)
         {
-            var a = new Atomic(1);
-            var b = new NegFormula(a);
+            ControlFlow prog = exampleProgram();
+            var pds = prog.createPDS();
+            LTLFormula f = test1();
+            var gnba = new GNBA(f);
+            var nba = new NBA(gnba);
+            var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
+            if (buchiPushDownSystem.CheckForNestedF())
+            {
+                Console.WriteLine("error in program");
+            }
             
-            var d = new NextFormula(b);
-            var e = new Until(a, d);
-            var c = new GNBA(a);
-            Console.WriteLine("Hello World!");
-            Console.WriteLine(c.nodes.Count);
+            
         }
     }
 }
