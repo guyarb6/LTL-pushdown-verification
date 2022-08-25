@@ -358,7 +358,7 @@ namespace Push_down_ver.Structures
         {
             foreach(int i in scc)
             {
-                if (fList[i]) 
+                if (fList[i]&&(scc.Count>1)) 
                 {
                     return true;
                 }

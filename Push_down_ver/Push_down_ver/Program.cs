@@ -100,13 +100,21 @@ namespace Push_down_ver
             Atomic left = new Atomic(2);
             
             return notAlwaysFormula(new OrFormula(new NegFormula(up), new Until(new NegFormula(down), left)));
+            //return new Until(new TrueFormula(), new Until());
         }
         
         static void Main(string[] args)
         {
+
+
+            func();
+        }
+
+        public static void func()
+        {
             ControlFlow prog = exampleProgram();
             var pds = prog.createPDS();
-            LTLFormula f = test1();
+            LTLFormula f = notAlwaysFormula(new Atomic(0));//test1();
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
@@ -114,8 +122,6 @@ namespace Push_down_ver
             {
                 Console.WriteLine("error in program");
             }
-            
-            
         }
     }
 }

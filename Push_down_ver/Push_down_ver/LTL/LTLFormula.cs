@@ -68,7 +68,7 @@ namespace Push_down_ver.LTL
         {
             foreach(NextFormula next in nextFormulas)
             {
-                if (a[next.index]!= !b[next.a.index])
+                if (a[next.index]!= b[next.a.index])
                 {
                     return false;
                 }
@@ -82,7 +82,7 @@ namespace Push_down_ver.LTL
         {
             foreach (Until u in untilFormulas)
             {
-                if (a[u.index] != ( a[u.l.index] || (a[u.r.index] && b[u.index]) ))
+                if (a[u.index] != ( a[u.r.index] || (a[u.l.index] && b[u.index]) ))
                 {
                     return false;
                 }
@@ -156,7 +156,7 @@ namespace Push_down_ver.LTL
                         return false;
                     }
                 }
-                else if (f.isTrue())
+                if (f.isTrue()&&(!f.r.isTrue()))
                 {
                     if (f.l.isTrue() == false)
                     {
