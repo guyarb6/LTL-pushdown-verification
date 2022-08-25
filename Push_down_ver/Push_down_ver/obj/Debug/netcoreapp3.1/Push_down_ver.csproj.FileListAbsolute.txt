@@ -18,7 +18,6 @@ C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.runtimeconfig.dev.json
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.dll
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\bin\Debug\netcoreapp3.1\Push_down_ver.pdb
-C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.csproj.AssemblyReference.cache
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.AssemblyInfoInputs.cache
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.AssemblyInfo.cs
@@ -26,3 +25,4 @@ C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.dll
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.pdb
 C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.genruntimeconfig.cache
+C:\Users\guy\Documents\GitHub\LTL-pushdown-verification\Push_down_ver\Push_down_ver\obj\Debug\netcoreapp3.1\Push_down_ver.csproj.AssemblyReference.cache

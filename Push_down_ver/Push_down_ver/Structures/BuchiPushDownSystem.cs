@@ -29,6 +29,7 @@ namespace Push_down_ver.Structures
 
             if (nbaNode.init && pdsNode.init)
             {
+                
                 this.init = true;
             }
             if (nbaNode.F)
@@ -119,7 +120,7 @@ namespace Push_down_ver.Structures
         {
             if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.positiveDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
             {
-                transitionAlphabet = positiveDelta[from.pdsNode.id, to.pdsNode.id];
+                transitionAlphabet = p.positiveDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
             }
             return false;
@@ -129,7 +130,7 @@ namespace Push_down_ver.Structures
         {
             if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.negativeDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
             {
-                transitionAlphabet = negativeDelta[from.pdsNode.id, to.pdsNode.id];
+                transitionAlphabet = p.negativeDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
             }
             return false;
@@ -137,7 +138,7 @@ namespace Push_down_ver.Structures
 
 
 
-        //motheds to create epsilon transitions -------------------------------------------------------------
+        //methods to create epsilon transitions -------------------------------------------------------------
 
 
         //will be used to create both all epsilon paths and f-epsilon paths:
@@ -179,11 +180,11 @@ namespace Push_down_ver.Structures
 
             foreach (var t in transFrom)
             {
-                addToEpsilon(t.Key, from);
+                addToEpsilon(t.Key, to);
             }
             foreach (var t in transTo)
             {
-                addToEpsilon(to, t.Key);
+                addToEpsilon(from, t.Key);
             }
         }
         private void setEpsilon()
@@ -212,7 +213,7 @@ namespace Push_down_ver.Structures
         //methods to create f-epsilon transitions----------------------------------------------------------
         private void setFEpsilon()
         {
-            setEpsilon();
+            //setEpsilon();
 
             s = new Stack<Tuple<int, int>>();
             var allEpsilonDelta = epsilonDelta;
@@ -238,6 +239,8 @@ namespace Push_down_ver.Structures
             }
         }
 
+
+
         private void addFTrans(int from, int to, SparseMatrix<bool> allEpsilonDelta)
         {
             Dictionary<int, bool> transFrom = allEpsilonDelta.getCol(from);
@@ -245,11 +248,11 @@ namespace Push_down_ver.Structures
 
             foreach (var t in transFrom)
             {
-                addToEpsilon(t.Key, from);
+                addToEpsilon(t.Key, to);
             }
             foreach (var t in transTo)
             {
-                addToEpsilon(to, t.Key);
+                addToEpsilon(from, t.Key);
             }
         }
 
@@ -289,13 +292,16 @@ namespace Push_down_ver.Structures
             HashSet<HashSet<int>> components = new HashSet<HashSet<int>>();
             for (int i= calledCounter; i < qSize; i++)
             {
+                
                 int id = topoSort[i];
                 if (tranposeCalled[id] == false)
                 {
+                    //Console.WriteLine(id);
                     SCCItems = new HashSet<int>();
                     components.Add(SCCItems);
                     tranposeDfs(id);
-                    
+                    //Console.WriteLine(SCCItems.Count);
+
                 }
             }
 
@@ -339,7 +345,7 @@ namespace Push_down_ver.Structures
                 return;
             }
             tranposeCalled[i] = true;
-
+            SCCItems.Add(i);
             foreach (var j in positiveDelta.getCol(i))
             {
                 tranposeDfs(j.Key);
@@ -348,7 +354,7 @@ namespace Push_down_ver.Structures
             {
                 tranposeDfs(j.Key);
             }
-            SCCItems.Add(i);
+            
         }
 
 
@@ -364,6 +370,7 @@ namespace Push_down_ver.Structures
                 }
                     
             }
+            /*
             foreach(int i in scc)
             {
                 foreach(int j in scc)
@@ -374,6 +381,7 @@ namespace Push_down_ver.Structures
                     }
                 }
             }
+            */
             return false;
         }
     }

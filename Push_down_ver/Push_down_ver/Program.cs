@@ -87,7 +87,15 @@ namespace Push_down_ver
             return cf;
         }
 
-        public static LTLFormula notAlwaysFormula(LTLFormula f)
+        public static LTLFormula WeakUntil(LTLFormula f1, LTLFormula f2)
+        {
+            return new OrFormula(new Until(f1, f2), AlwaysFormula(f1));
+        }
+        public static LTLFormula AlwaysFormula(LTLFormula f)
+        {
+            return new NegFormula(NotAlwaysFormula(f));
+        }
+        public static LTLFormula NotAlwaysFormula(LTLFormula f)
         {
             var notF = new NegFormula(f);
             var eventualyNotF = new Until(new TrueFormula(), notF);
@@ -99,14 +107,15 @@ namespace Push_down_ver
             Atomic down = new Atomic(1);
             Atomic left = new Atomic(2);
             
-            return notAlwaysFormula(new OrFormula(new NegFormula(up), new Until(new NegFormula(down), left)));
+            
+            return NotAlwaysFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
             //return new Until(new TrueFormula(), new Until());
         }
         
         static void Main(string[] args)
         {
 
-
+            
             func();
         }
 
@@ -114,7 +123,7 @@ namespace Push_down_ver
         {
             ControlFlow prog = exampleProgram();
             var pds = prog.createPDS();
-            LTLFormula f = notAlwaysFormula(new Atomic(0));//test1();
+            LTLFormula f = test1();//AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
