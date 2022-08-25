@@ -101,16 +101,7 @@ namespace Push_down_ver
             var eventualyNotF = new Until(new TrueFormula(), notF);
             return eventualyNotF;
         }
-        public static LTLFormula test1()
-        {
-            Atomic up = new Atomic(0);
-            Atomic down = new Atomic(1);
-            Atomic left = new Atomic(2);
-            
-            
-            return NotAlwaysFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
-            //return new Until(new TrueFormula(), new Until());
-        }
+        
         
         static void Main(string[] args)
         {
@@ -123,7 +114,7 @@ namespace Push_down_ver
         {
             ControlFlow prog = exampleProgram();
             var pds = prog.createPDS();
-            LTLFormula f = test1();//AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
+            LTLFormula f = AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
