@@ -82,7 +82,13 @@ namespace Push_down_ver.LTL
         {
             foreach (Until u in untilFormulas)
             {
-                if (a[u.index] != ( a[u.r.index] || (a[u.l.index] && b[u.index]) ))
+                assignment = b;
+                bool temp = u.isTrue();
+                assignment = a;
+
+                bool left = u.isTrue();
+                bool right = (u.r.isTrue() || (u.l.isTrue() && temp));
+                if (left != right)
                 {
                     return false;
                 }

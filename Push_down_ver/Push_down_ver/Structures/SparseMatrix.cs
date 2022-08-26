@@ -32,7 +32,7 @@ namespace Push_down_ver.Structures
             }
         }
 
-        public bool IsCellEmpty(int row, int col)
+        public bool IsNotCellEmpty(int row, int col)
         {
             long index = row * Width + col;
             return _cells.ContainsKey(index);

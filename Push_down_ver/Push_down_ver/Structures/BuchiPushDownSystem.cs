@@ -118,7 +118,7 @@ namespace Push_down_ver.Structures
         private int transitionAlphabet;
         private bool PossiblePositiveTransition(BpdsNode from, BpdsNode to)
         {
-            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.positiveDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
+            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (p.positiveDelta.IsNotCellEmpty(from.pdsNode.id, to.pdsNode.id)))
             {
                 transitionAlphabet = p.positiveDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
@@ -128,7 +128,7 @@ namespace Push_down_ver.Structures
 
         private bool PossibleNegativeTransition(BpdsNode from, BpdsNode to)
         {
-            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (!p.negativeDelta.IsCellEmpty(from.pdsNode.id, to.pdsNode.id)))
+            if (from.nbaNode.neighbor.Contains(to.nbaNode) && (p.negativeDelta.IsNotCellEmpty(from.pdsNode.id, to.pdsNode.id)))
             {
                 transitionAlphabet = p.negativeDelta[from.pdsNode.id, to.pdsNode.id];
                 return true;
@@ -147,7 +147,7 @@ namespace Push_down_ver.Structures
         private Stack<Tuple<int, int>> s;
         private void addToEpsilon(int from, int to)
         {
-            if (epsilonDelta.IsCellEmpty(from, to))
+            if (!epsilonDelta.IsNotCellEmpty(from, to))
             {
                 epsilonDelta[from, to] = true;
                 s.Push(new Tuple<int, int>(from, to));
