@@ -68,7 +68,13 @@ namespace Push_down_ver.LTL
         {
             foreach(NextFormula next in nextFormulas)
             {
-                if (a[next.index]!= b[next.a.index])
+                assignment = b;
+                bool right = next.a.isTrue();
+                assignment = a;
+
+                bool left = next.isTrue();
+                
+                if (left!= right)
                 {
                     return false;
                 }

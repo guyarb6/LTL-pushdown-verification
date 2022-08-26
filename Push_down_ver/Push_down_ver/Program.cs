@@ -193,11 +193,36 @@ namespace Push_down_ver
             Atomic left = new Atomic(2);
 
             //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
+            return NotAlwaysFormula(new OrFormula(new NegFormula(down), WeakUntil(new NegFormula(up), left)));
+            //up and (not down until not left) and (true until down)
+            //return new Until(new TrueFormula(), new Until());
+        }
+
+        public static LTLFormula test2()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+            //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
             return NotAlwaysFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
             //up and (not down until not left) and (true until down)
             //return new Until(new TrueFormula(), new Until());
         }
-        
+
+        public static LTLFormula test3()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+            //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
+            return NotAlwaysFormula(new OrFormula(new NegFormula(up), new Until(new NegFormula(down), left)));
+            //up and (not down until not left) and (true until down)
+            //return new Until(new TrueFormula(), new Until());
+        }
+
+
         static void Main(string[] args)
         {
 
@@ -209,7 +234,7 @@ namespace Push_down_ver
         {
             ControlFlow prog = exampleProgram2();
             var pds = prog.createPDS();
-            LTLFormula f = test1();//new NegFormula(new Until(new TrueFormula(), new Atomic(0)));///test1();// AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
+            LTLFormula f = test2();//new NegFormula(new Until(new TrueFormula(), new Atomic(0)));///test1();// AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
