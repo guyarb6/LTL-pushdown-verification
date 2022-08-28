@@ -111,6 +111,7 @@ namespace Push_down_ver.Structures
                         negativeDelta[n1.id, n2.id] = transitionAlphabet;
                     }
                 }
+
             }
         }
 
@@ -160,7 +161,7 @@ namespace Push_down_ver.Structures
         {
 
             Dictionary<int, int> preFrom = positiveDelta.getCol(from);
-            Dictionary<int, int> postTo = positiveDelta.getRow(to);
+            Dictionary<int, int> postTo = negativeDelta.getRow(to);
 
             foreach (var f in preFrom)
             {
@@ -370,7 +371,7 @@ namespace Push_down_ver.Structures
                 }
                     
             }
-            /*
+            
             foreach(int i in scc)
             {
                 foreach(int j in scc)
@@ -381,7 +382,7 @@ namespace Push_down_ver.Structures
                     }
                 }
             }
-            */
+            
             return false;
         }
     }
