@@ -341,7 +341,7 @@ namespace Push_down_ver.Structures
 
         private void tranposeDfs(int i)
         {
-            if (tranposeCalled[i])
+            if (tranposeCalled[i] || (false==called[i]))
             {
                 return;
             }
@@ -365,7 +365,7 @@ namespace Push_down_ver.Structures
         {
             foreach(int i in scc)
             {
-                if (fList[i]&&(scc.Count>1)) 
+                if (fList[i]&&((scc.Count>1)||(positiveDelta.IsNotCellEmpty(i,i)))) 
                 {
                     return true;
                 }

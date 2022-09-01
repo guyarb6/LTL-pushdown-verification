@@ -321,9 +321,9 @@ namespace Push_down_ver
 
         public static void func()
         {
-            ControlFlow prog = exampleProgram();
+            ControlFlow prog = exampleProgram2();
             var pds = prog.createPDS();
-            LTLFormula f = new Until(new TrueFormula(), new Atomic(0));//test4();//new NegFormula(new Until(new TrueFormula(), new Atomic(0)));///test1();// AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
+            LTLFormula f = test4();//test4();//new NegFormula(new Until(new TrueFormula(), new Atomic(0)));///test1();// AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
