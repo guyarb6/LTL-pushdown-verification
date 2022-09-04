@@ -13,94 +13,9 @@ namespace Push_down_ver
         //1- At this Ip down will be called
         //2- At this Ip left will be called
 
+        
+        //example program
         public static ControlFlow exampleProgram()
-        {
-            //set
-
-            ControlFlow cf = new ControlFlow();
-
-
-            //basic atomic propoerites:
-
-            //set up function
-
-
-            /*
-            //set down function
-            HashSet<int> downHash = new HashSet<int>();
-            downHash.Add(1);
-            ReturnNode down = new ReturnNode(downHash);
-
-            //set left function
-            HashSet<int> leftHash = new HashSet<int>();
-            leftHash.Add(2);
-            ReturnNode left = new ReturnNode(leftHash);
-
-
-
-            //simple return:
-            HashSet<int> empty = new HashSet<int>();
-            ReturnNode returnIp = new ReturnNode(empty);
-            */
-            //main control ip:
-            HashSet<int> upHash = new HashSet<int>();
-            upHash.Add(0);
-           
-            HashSet<int> empty = new HashSet<int>();
-            ReturnNode up = new ReturnNode(empty);
-            CallNode startProgram = new CallNode(empty);
-            CallNode endProgram = new CallNode(upHash);//call itself
-
-            /*
-            //s control ip:
-            NonDeterministicCallNode s1 = new NonDeterministicCallNode(empty);
-            CallNode s2 = new CallNode(empty);
-            CallNode s3 = new CallNode(empty);
-
-            //m control ip:
-            NonDeterministicCallNode m1 = new NonDeterministicCallNode(empty);
-            CallNode m2 = new CallNode(empty);
-            CallNode m3 = new CallNode(empty);
-            CallNode m4 = new CallNode(empty);
-            
-            */
-
-            
-
-            //set main control flow
-            startProgram.setCallIp(up, endProgram);
-            endProgram.setCallIp(endProgram, endProgram);
-            cf.SetMainFunction(startProgram);
-            cf.AddFunction(startProgram);
-            cf.AddFunction(up);
-            
-            //set s control flow
-            /*
-            s1.setCallIp1(returnIp, returnIp);
-            s1.setCallIp2(up, s2);
-            s2.setCallIp(m1, s3);
-            s3.setCallIp(down, returnIp);
-
-
-            //set m control flow
-            m1.setCallIp1(s1, m2);
-            m2.setCallIp(left, returnIp);
-
-            m1.setCallIp2(up, m3);
-            m3.setCallIp(m1, m4);
-            m4.setCallIp(down, returnIp);
-            cf.SetMainFunction(startProgram);
-            cf.AddFunction(startProgram);
-            cf.AddFunction(m1);
-            cf.AddFunction(s1);
-            cf.AddFunction(up);
-            cf.AddFunction(down);
-            cf.AddFunction(left);
-            */
-            return cf;
-        }
-
-        public static ControlFlow exampleProgram2()
         {
             //set
 
@@ -174,106 +89,40 @@ namespace Push_down_ver
             return cf;
         }
 
-        public static ControlFlow exampleProgram3()
-        {
-            //set
-
-            ControlFlow cf = new ControlFlow();
-
-
-            //basic atomic propoerites:
-
-            //set up function
-            HashSet<int> upHash = new HashSet<int>();
-            upHash.Add(0);
-            
-
-
-            //set down function
-            HashSet<int> downHash = new HashSet<int>();
-            downHash.Add(1);
-            ReturnNode down = new ReturnNode(downHash);
-
-            //set left function
-            HashSet<int> leftHash = new HashSet<int>();
-            leftHash.Add(2);
-            ReturnNode left = new ReturnNode(leftHash);
 
 
 
-            //simple return:
-            HashSet<int> empty = new HashSet<int>();
-            ReturnNode up = new ReturnNode(empty);
-            ReturnNode returnIp = new ReturnNode(empty);
-
-            //main control ip:
-            CallNode startProgram = new CallNode(empty);
-            CallNode endProgram = new CallNode(upHash);//call itself
-
-            //s control ip:
-            NonDeterministicCallNode s1 = new NonDeterministicCallNode(empty);
-            CallNode s2 = new CallNode(empty);
-            CallNode s3 = new CallNode(empty);
-
-            //m control ip:
-            NonDeterministicCallNode m1 = new NonDeterministicCallNode(empty);
-            CallNode m2 = new CallNode(empty);
-            CallNode m3 = new CallNode(empty);
-            CallNode m4 = new CallNode(empty);
-
-            //set main control flow
-            startProgram.setCallIp(s1, endProgram);
-            endProgram.setCallIp(endProgram, endProgram);
-
-            //set s control flow
-            s1.setCallIp1(returnIp, returnIp);
-            s1.setCallIp2(up, s2);
-            s2.setCallIp(m1, s3);
-            s3.setCallIp(down, returnIp);
-
-
-            //set m control flow
-            m1.setCallIp1(s1, m2);
-            m2.setCallIp(left, returnIp);
-
-            m1.setCallIp2(up, m3);
-            m3.setCallIp(m1, m4);
-            m4.setCallIp(down, returnIp);
-            cf.SetMainFunction(startProgram);
-            cf.AddFunction(startProgram);
-            cf.AddFunction(m1);
-            cf.AddFunction(s1);
-            cf.AddFunction(up);
-            cf.AddFunction(down);
-            cf.AddFunction(left);
-            return cf;
-        }
-
+        //-----------------------------LTL extra syntax----------------------------
         public static LTLFormula WeakUntil(LTLFormula f1, LTLFormula f2)
         {
             return new OrFormula(new Until(f1, f2), AlwaysFormula(f1));
         }
+
         public static LTLFormula AlwaysFormula(LTLFormula f)
         {
             return new NegFormula(NotAlwaysFormula(f));
         }
+
         public static LTLFormula NotAlwaysFormula(LTLFormula f)
         {
             var notF = new NegFormula(f);
             var eventualyNotF = new Until(new TrueFormula(), notF);
             return eventualyNotF;
         }
+
+
+
+        //----------------------------tests------------------------------------------
         public static LTLFormula test1()
         {
             Atomic up = new Atomic(0);
             Atomic down = new Atomic(1);
             Atomic left = new Atomic(2);
 
-            //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
+            
             return NotAlwaysFormula(new OrFormula(new NegFormula(down), WeakUntil(new NegFormula(up), left)));
-            //up and (not down until not left) and (true until down)
-            //return new Until(new TrueFormula(), new Until());
         }
+
 
         public static LTLFormula test2()
         {
@@ -281,11 +130,10 @@ namespace Push_down_ver
             Atomic down = new Atomic(1);
             Atomic left = new Atomic(2);
 
-            //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
+            
             return NotAlwaysFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
-            //up and (not down until not left) and (true until down)
-            //return new Until(new TrueFormula(), new Until());
         }
+
 
         public static LTLFormula test3()
         {
@@ -293,11 +141,10 @@ namespace Push_down_ver
             Atomic down = new Atomic(1);
             Atomic left = new Atomic(2);
 
-            //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
             return NotAlwaysFormula(new OrFormula(new NegFormula(up), new Until(new NegFormula(down), left)));
-            //up and (not down until not left) and (true until down)
-            //return new Until(new TrueFormula(), new Until());
+            
         }
+
 
         public static LTLFormula test4()
         {
@@ -305,25 +152,16 @@ namespace Push_down_ver
             Atomic down = new Atomic(1);
             Atomic left = new Atomic(2);
 
-            //return new NegFormula(new OrFormula(new NegFormula(up), WeakUntil(new NegFormula(down), left)));
+
             return NotAlwaysFormula(new OrFormula(new NegFormula(down), new Until(new NegFormula(up), left)));
-            //up and (not down until not left) and (true until down)
-            //return new Until(new TrueFormula(), new Until());
         }
 
 
         static void Main(string[] args)
         {
-
-            
-            func();
-        }
-
-        public static void func()
-        {
-            ControlFlow prog = exampleProgram2();
+            ControlFlow prog = exampleProgram();
             var pds = prog.createPDS();
-            LTLFormula f = test4();//test4();//new NegFormula(new Until(new TrueFormula(), new Atomic(0)));///test1();// AlwaysFormula( new AndFormula(new Atomic(0), new Atomic(1)));
+            LTLFormula f = test2();
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
