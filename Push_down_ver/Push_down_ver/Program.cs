@@ -157,11 +157,67 @@ namespace Push_down_ver
         }
 
 
+
+
+
+
+        //-----------------------simple tests-------------------------------------
+
+        public static LTLFormula test5()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+
+            return new OrFormula(new TrueFormula(), new OrFormula(new OrFormula(left, down), up));
+        }
+
+        public static LTLFormula test6()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+
+            return new AndFormula(new FalseFormula(), new AndFormula(new AndFormula(left, down), up));
+        }
+
+        public static LTLFormula test7()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+
+            return new NegFormula(new OrFormula(new OrFormula(left, down), new NextFormula(new NextFormula(up))));
+        }
+
+        public static LTLFormula test8()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+
+            return new OrFormula(new OrFormula(left, down), new NextFormula(up));
+        }
+
+        public static LTLFormula test9()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+
+            return new TrueFormula();
+        }
+
         static void Main(string[] args)
         {
             ControlFlow prog = exampleProgram();
             var pds = prog.createPDS();
-            LTLFormula f = test2();
+            LTLFormula f = test8();
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
