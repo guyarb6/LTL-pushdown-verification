@@ -190,7 +190,7 @@ namespace Push_down_ver
             Atomic left = new Atomic(2);
 
 
-            return new NegFormula(new OrFormula(new OrFormula(left, down), new NextFormula(new NextFormula(up))));
+            return new NegFormula(new AndFormula(new OrFormula(new TrueFormula(), new OrFormula(new OrFormula(left, down), up)), new NextFormula(new NextFormula(down))));
         }
 
         public static LTLFormula test8()
@@ -200,7 +200,7 @@ namespace Push_down_ver
             Atomic left = new Atomic(2);
 
 
-            return new OrFormula(new OrFormula(left, down), new NextFormula(up));
+            return new NegFormula(new AndFormula(new OrFormula(new TrueFormula(), new OrFormula(new OrFormula(left, down), up)), new NextFormula(up)));
         }
 
         public static LTLFormula test9()
@@ -210,14 +210,24 @@ namespace Push_down_ver
             Atomic left = new Atomic(2);
 
 
-            return new TrueFormula();
+            return new NegFormula(new AndFormula(new OrFormula(new TrueFormula(), new OrFormula(new OrFormula(left, down), up)), new Until(new TrueFormula(),up)));
+        }
+
+        public static LTLFormula test10()
+        {
+            Atomic up = new Atomic(0);
+            Atomic down = new Atomic(1);
+            Atomic left = new Atomic(2);
+
+
+            return new NegFormula(new AndFormula(new OrFormula(new TrueFormula(), new OrFormula(new OrFormula(left, down), up)), new Until(new TrueFormula(), new Until(new TrueFormula(), up))));
         }
 
         static void Main(string[] args)
         {
             ControlFlow prog = exampleProgram();
             var pds = prog.createPDS();
-            LTLFormula f = test8();
+            LTLFormula f = test5();
             var gnba = new GNBA(f);
             var nba = new NBA(gnba);
             var buchiPushDownSystem = new BuchiPushDownSystem(pds, nba);
